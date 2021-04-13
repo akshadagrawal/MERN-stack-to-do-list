@@ -33,4 +33,4 @@ if(process.env.NODE_ENV == 'production'){
 
 
 const port= process.env.PORT || 6000; //for deploying
-app.listen(6000,()=> console.log('Connection established')); 
+app.listen(port,'0.0.0.0',()=> console.log('Connection established')); 
