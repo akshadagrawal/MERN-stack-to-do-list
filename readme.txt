@@ -17,3 +17,9 @@ everything in scripts in package.json is 'npm run that_scripts'
 
 
 for hosting part change in server .json and  package.json add heroku-post- build
+
+
+
+
+Deploy link
+https://stark-reaches-16095.herokuapp.com/ 
