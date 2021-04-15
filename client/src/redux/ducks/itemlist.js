@@ -1,8 +1,18 @@
 import axios from 'axios';
+import { tokenConfig } from './authUser';
+import { get_errors } from './error';
 export const GET_ITEMS='get_items';
 export const SET_ITEMS=' set_items';
 export const ADD_ITEMS='add_items';
 export const DELETE_ITEMS='delete_items';
+
+const initialState= {
+    items: []  
+};
+
+
+// dispatch means it dispatches the action of given type
+
 
 
 export  const get_items=()=> dispatch =>{
@@ -11,26 +21,32 @@ export  const get_items=()=> dispatch =>{
             type: GET_ITEMS,
             payload: res.data
         }))
+        .catch(err=>{
+            dispatch(get_errors(err.response.data, err.response.status));
+        })
  }
  
-export  const add_items=(name)=> dispatch =>{
-    axios.post('/api/items', {name})
+export  const add_items=(name)=> (dispatch, getState) =>{
+    axios.post('/api/items', {name}, tokenConfig(getState))
         .then(res=> dispatch({
             type:ADD_ITEMS,
             payload: res.data
         }))
+        .catch(err=>{
+            dispatch(get_errors(err.response.data, err.response.status));
+        })
 }
-export  const delete_items=(id)=>dispatch=>{
-    axios.delete(`/api/items/${id}`)
+export  const delete_items=(id)=>(dispatch,getState)=>{
+    axios.delete(`/api/items/${id}`, tokenConfig(getState))
         .then(res=> dispatch({
             type:DELETE_ITEMS,
             payload: id
         }))
+        .catch(err=>{
+            dispatch(get_errors(err.response.data, err.response.status));
+        })
 }
 
-const initialState= {
-    items: []  
-};
 
 const itemReducer= (state= initialState, action)=>{
     switch(action.type){

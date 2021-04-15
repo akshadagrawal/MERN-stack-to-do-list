@@ -7,6 +7,9 @@ import { delete_items, get_items } from '../redux/ducks/itemlist';
 
 const ShoppingList=() =>{
 
+    const isAuthenticated=useSelector(state=> state.auth.isAuthenticated)
+
+
     const dispatch = useDispatch();
 
     const items= useSelector((state)=> state.item.items);
@@ -25,19 +28,22 @@ const ShoppingList=() =>{
             <Container>
                 <ListGroup >
                     <TransitionGroup className="shopping-list">
-                        {items && items.map(({_id,name})=>(
+                        {items ?(items.map(({_id,name})=>(
                             <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
-                                    <Button 
-                                            className="remove-btn" 
-                                            color="danger" 
-                                            size="sm" 
-                                            onClick={()=>handleDeleteItem(_id)} 
-                                    >&times;</Button>
+                                    { isAuthenticated ? (
+                                             <Button 
+                                             className="remove-btn" 
+                                             color="danger" 
+                                             size="sm" 
+                                             onClick={()=>handleDeleteItem(_id)} 
+                                     >&times;</Button> 
+                                    ) : null}
+                                   
                                     {name}
                                 </ListGroupItem>
                             </CSSTransition>
-                        ))} 
+                        )) ): null } 
                     </TransitionGroup>
                 </ListGroup>
             </Container>
